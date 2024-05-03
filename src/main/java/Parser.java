@@ -166,7 +166,15 @@ class Parser {
         // this one handles TokenTypes such as Keyword_if, Keyword_else, nd_If, Keyword_print, etc.
         // also handles while, end of file, braces
         Node s, s2, t = null, e, v;
-
+        if (this.token.tokentype == TokenType.Identifier) {
+            v = Node.make_leaf(this.token.tokentype, this.token.value);
+            if (getNextToken().tokentype == TokenType.Op_assign) {
+                e =
+                v = Node.make_node(NodeType.Op_assign)
+            } else {
+                error(this.token.line, this.token.pos, "Expecting assignment operator, cannot use " + this.token.tokentype+ ".");
+            }
+        }
         return t;
     }
     Node parse() {
