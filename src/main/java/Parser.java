@@ -143,11 +143,34 @@ class Parser {
         return this.token;
     }
     Node expr(int p) {
-        // create nodes for token types such as LeftParen, Op_add, Op_subtract, etc.
-        // be very careful here and be aware of the precendence rules for the AST tree
-        Node result = null, node;
+        Node node = primary();
+        while (this.token.tokentype.isBinary() && this.token.tokentype.precedence > p) {
+            TokenType operator = this.token.tokentype;
+            getNextToken();
+            rightNode = expr(operator.getPrecedence());
+            node = Node.make(operator.getNodeType(), node, rightNode);
+        }
+        return node;
+    }
 
-        return result;
+    Node primary() {
+        if (this.token.tokentype == TokenType.Integer) {
+            Node node = Node.make_leaf(NodeType.nd_Integer, this.token.value);
+            getNextToken();
+            return node;
+        } else if (this.token.tokentype == TokenType.Identifier) {
+            Node node = Node.make_leaf(NodeType.nd_Ident, this.token.value);
+            getNextToken();
+            return node;
+        } else if (this.token.tokentype == TokenType.LeftParen) {
+            paren_expr();
+        } else if (this.token.tokentype.isUnary() && this.token.tokentype != TokenType.Op_equal){
+                NodeType unary = this.token.tokentype.getNodeType();
+                getNextToken();
+                return Node.make_node(unary, primary(), null);
+        } else {
+            error(this.token.line, this.token.pos, "Expecting primary token, cannot use " + this.token.tokentype + ".");
+        }
     }
     Node paren_expr() {
         expect("paren_expr", TokenType.LeftParen);
@@ -163,19 +186,28 @@ class Parser {
         error(this.token.line, this.token.pos, msg + ": Expecting '" + s + "', found: '" + this.token.tokentype + "'");
     }
     Node stmt() {
-        // this one handles TokenTypes such as Keyword_if, Keyword_else, nd_If, Keyword_print, etc.
-        // also handles while, end of file, braces
-        Node s, s2, t = null, e, v;
         if (this.token.tokentype == TokenType.Identifier) {
-            v = Node.make_leaf(this.token.tokentype, this.token.value);
-            if (getNextToken().tokentype == TokenType.Op_assign) {
-                e =
-                v = Node.make_node(NodeType.Op_assign)
-            } else {
-                error(this.token.line, this.token.pos, "Expecting assignment operator, cannot use " + this.token.tokentype+ ".");
-            }
+            Node leftNode = Node.make_leaf(this.token.tokentype, this.token.value);
+            expect(TokenType.Op_assign);
+            Node node = Node.make_node(NodeType.Op_assign, leftNode, expr(0));
+            expect(TokenType.Semicolon);
+            return node;
+        } else if (this.token.tokentype == TokenType.Keyword_while) {
+            return Node.make_node(NodeType.nd_While, paren_expr(), stmt());
+        } else if (this.token.tokentype == TokenType.Keyword_if) {
+             getNextToken();
+             Node ifNode = Node.make_node(NodeType.nd_If);
+             Node parenExpr = paren_expr();
+             Node ifTrue = stmt();
+             if (this.token.tokentype == TokenType.Keyword_else) {
+                 getNextToken();
+                 Node ifFalse = stmt();
+                 return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, ifFalse));
+             } else {
+                getNextToken();
+                return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, null));
+             }
         }
-        return t;
     }
     Node parse() {
         Node t = null;
