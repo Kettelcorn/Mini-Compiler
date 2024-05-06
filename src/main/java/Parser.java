@@ -189,11 +189,13 @@ class Parser {
     Node stmt() {
         if (this.token.tokentype == TokenType.Identifier) {
             Node leftNode = Node.make_leaf(this.token.tokentype.getNodeType(), this.token.value);
+            getNextToken();
             expect("Assign", TokenType.Op_assign);
             Node node = Node.make_node(NodeType.nd_Assign, leftNode, expr(0));
             expect("Semicolon", TokenType.Semicolon);
             return node;
         } else if (this.token.tokentype == TokenType.Keyword_while) {
+            getNextToken();
             return Node.make_node(NodeType.nd_While, paren_expr(), stmt());
         } else if (this.token.tokentype == TokenType.Keyword_if) {
              getNextToken();
@@ -247,6 +249,8 @@ class Parser {
                 getNextToken();
             }
         }
+        getNextToken();
+        expect("Semicolon", TokenType.Semicolon);
         return node;
     }
     Node parse() {
@@ -337,7 +341,7 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/hello.lex"));
+                Scanner s = new Scanner(new File("src/main/resources/count.lex"));
                 String source = " ";
                 while (s.hasNext()) {
                     String str = s.nextLine();
