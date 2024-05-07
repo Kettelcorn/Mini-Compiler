@@ -286,7 +286,7 @@ class Parser {
 
     static void outputToFile(String result) {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/hello.par");
+            FileWriter myWriter = new FileWriter("src/main/resources/99bottles.par");
             myWriter.write(result);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -340,7 +340,7 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/loop.lex"));
+                Scanner s = new Scanner(new File("src/main/resources/99bottles.lex"));
                 String source = " ";
                 while (s.hasNext()) {
                     String str = s.nextLine();
