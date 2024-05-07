@@ -123,33 +123,36 @@ public class Lexer {
     }
 
     Token div_or_comment(int line, int pos) { // handle division or comments
-        if (getNextChar() != '/') {
-            return new Token(TokenType.Op_divide, "", line, pos);
-        } else {
-            char nextChar = getNextChar();
+        char currentChar = this.chr;
+        char nextChar = getNextChar();
+        if (currentChar == '/') {
+            //return new Token(TokenType.Op_divide, "", line, pos);
             if (nextChar == '/') { // Line comment
                 while (getNextChar() != '\n') {
                     if (this.chr == '\u0000') {
                         return new Token(TokenType.End_of_input, "", line, pos);
                     }
                 }
+                getNextChar();
                 return getToken();
             } else if (nextChar == '*') { // Block comment
                 while (true) {
-                    char currentChar = getNextChar();
+                    currentChar = getNextChar();
                     if (currentChar == '\u0000') {
                         error(line, pos, "Unterminated block comment");
                     } else if (currentChar == '*') {
                         if (getNextChar() == '/') {
+                            getNextChar();
                             return getToken();
                         }
                     }
                 }
             } else {
-                error(line, pos, String.format("Invalid character after '/': %c", nextChar));
-                return new Token(TokenType.End_of_input, "", line, pos);
+                return new Token(TokenType.Op_divide, "", line, pos);
             }
         }
+        error(line, pos, "Incorrectly entered this method");
+        return new Token(TokenType.End_of_input, "", line, pos);
     }
 
     Token identifier_or_integer(int line, int pos) { // handle identifiers and integers
