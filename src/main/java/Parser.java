@@ -227,9 +227,8 @@ class Parser {
         }
         return null;
     }
-    // TODO: Check if null is the correct value for the right node
 
-
+// TODO: Figure out how to have identifiers by under Prti nodes
     Node printNode() {
         Node node = null;
         Node temp = null;
@@ -341,7 +340,7 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/count.lex"));
+                Scanner s = new Scanner(new File("src/main/resources/loop.lex"));
                 String source = " ";
                 while (s.hasNext()) {
                     String str = s.nextLine();
