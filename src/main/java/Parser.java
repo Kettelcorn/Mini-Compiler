@@ -125,6 +125,13 @@ class Parser {
         @Override
         public String toString() { return this.name; }
     }
+
+    /**
+     * Prints an error message to the standard output and terminates the program.
+     * @param line the line number where the error occurred.
+     * @param pos the position in the line where the error occurred.
+     * @param msg the error message.
+     */
     static void error(int line, int pos, String msg) {
         if (line > 0 && pos > 0) {
             System.out.printf("%s in line %d, pos %d\n", msg, line, pos);
@@ -138,10 +145,21 @@ class Parser {
         this.token = null;
         this.position = 0;
     }
+
+    /**
+     * Retrieves the next token from the source list.
+     * @return the next token.
+     */
     Token getNextToken() {
         this.token = this.source.get(this.position++);
         return this.token;
     }
+
+    /**
+     * Parses an expression based on the precedence.
+     * @param p the precedence level.
+     * @return the parsed node.
+     */
     Node expr(int p) {
         Node node = primary();
         while (this.token.tokentype.isBinary() && this.token.tokentype.precedence > p) {
@@ -153,6 +171,10 @@ class Parser {
         return node;
     }
 
+    /**
+     * Handles parsing of primary expressions.
+     * @return the node representing the primary expression.
+     */
     Node primary() {
         if (this.token.tokentype == TokenType.Integer) {
             Node node = Node.make_leaf(NodeType.nd_Integer, this.token.value);
@@ -173,12 +195,23 @@ class Parser {
         }
         return null;
     }
+
+    /**
+     * Parses and handles parentheses expressions.
+     * @return the node representing the expression within parentheses.
+     */
     Node paren_expr() {
         expect("paren_expr", TokenType.LeftParen);
         Node node = expr(0);
         expect("paren_expr", TokenType.RightParen);
         return node;
     }
+
+    /**
+     * Ensures the next token is the expected one.
+     * @param msg the message to be shown in case of an error.
+     * @param s the expected token type.
+     */
     void expect(String msg, TokenType s) {
         if (this.token.tokentype == s) {
             getNextToken();
@@ -186,6 +219,11 @@ class Parser {
         }
         error(this.token.line, this.token.pos, msg + ": Expecting '" + s + "', found: '" + this.token.tokentype + "'");
     }
+
+    /**
+     * Parses a statement.
+     * @return the node representing the parsed statement.
+     */
     Node stmt() {
         if (this.token.tokentype == TokenType.Identifier) {
             Node leftNode = Node.make_leaf(this.token.tokentype.getNodeType(), this.token.value);
@@ -228,7 +266,10 @@ class Parser {
         return null;
     }
 
-// TODO: Figure out how to have identifiers by under Prti nodes
+    /**
+     * Handles the parsing of print statements.
+     * @return the node representing the print sequence.
+     */
     Node printNode() {
         Node node = null;
         Node temp = null;
@@ -252,6 +293,11 @@ class Parser {
         expect("Semicolon", TokenType.Semicolon);
         return node;
     }
+
+    /**
+     * Parses the entire input source into an AST.
+     * @return the root node of the AST.
+     */
     Node parse() {
         Node t = null;
         getNextToken();
@@ -260,6 +306,13 @@ class Parser {
         }
         return t;
     }
+
+    /**
+     * Converts the AST into a string representation and outputs it to the console.
+     * @param t the root node of the AST.
+     * @param sb the StringBuilder to append the string representation.
+     * @return the string representation of the AST.
+     */
     String printAST(Node t, StringBuilder sb) {
         int i = 0;
         if (t == null) {
@@ -284,6 +337,10 @@ class Parser {
         return sb.toString();
     }
 
+    /**
+     * Writes the result of AST processing to a file.
+     * @param result the string representation of the AST to be written to the file.
+     */
     static void outputToFile(String result) {
         try {
             FileWriter myWriter = new FileWriter("src/main/resources/99bottles.par");
@@ -295,7 +352,10 @@ class Parser {
         }
     }
 
-
+    /**
+     * The main method that sets up and runs the parser.
+     * @param args command line arguments.
+     */
     public static void main(String[] args) {
         if (1==1) {
             try {
