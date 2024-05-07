@@ -65,7 +65,7 @@ public class Lexer {
 
     Lexer(String source) {
         this.line = 1;
-        this.pos = 0;
+        this.pos = 1;
         this.position = 0;
         this.s = source;
         this.chr = this.s.charAt(0);
@@ -118,6 +118,7 @@ public class Lexer {
             }
             result.append(this.chr);
         }
+        getNextChar();
         return new Token(TokenType.String, result.toString(), line, pos);
     }
 
@@ -153,14 +154,31 @@ public class Lexer {
 
     Token identifier_or_integer(int line, int pos) { // handle identifiers and integers
         StringBuilder text = new StringBuilder();
+        boolean isInteger = true;
         while (Character.isLetterOrDigit(this.chr) || this.chr == '_') {
             text.append(this.chr);
+            if (!Character.isDigit(this.chr)) {
+                isInteger = false;
+            }
             getNextChar();
         }
-        if (text.length() == 1 && Character.isDigit(text.charAt(0))) {
+        if (isInteger) {
             return new Token(TokenType.Integer, text.toString(), line, pos);
         }
-        return new Token(TokenType.Identifier, text.toString(), line, pos);
+        switch (text.toString()) {
+            case "if":
+                return new Token(TokenType.Keyword_if, "", line, pos);
+            case "else":
+                return new Token(TokenType.Keyword_else, "", line, pos);
+            case "print":
+                return new Token(TokenType.Keyword_print, "" , line, pos);
+            case "putc":
+                return new Token(TokenType.Keyword_putc, "", line, pos);
+            case "while":
+                return new Token(TokenType.Keyword_while, "", line, pos);
+            default:
+                return new Token(TokenType.Identifier, text.toString(), line, pos);
+        }
     }
 
     Token getToken() {
@@ -177,36 +195,46 @@ public class Lexer {
             case '\u0000':
                 return new Token(TokenType.End_of_input, "", this.line, this.pos);
             case '*':
-                return follow('*', TokenType.Op_multiply, TokenType.Op_divide, line, pos);
+                getNextChar();
+                return new Token(TokenType.Op_multiply, "", line, pos);
             case '%':
-                return follow('%', TokenType.Op_mod, TokenType.Op_assign, line, pos);
+                getNextChar();
+                return new Token(TokenType.Op_mod, "", line, pos);
             case '+':
-                return follow('+', TokenType.Op_add, TokenType.Op_assign, line, pos);
+                getNextChar();
+                return new Token(TokenType.Op_add, "", line, pos);
             case '-':
-                return follow('-', TokenType.Op_subtract, TokenType.Op_assign, line, pos);
+                getNextChar();
+                return new Token(TokenType.Op_subtract, "", line, pos);
             case '<':
-                return follow('<', TokenType.Op_less, TokenType.Op_lessequal, line, pos);
+                return follow('=', TokenType.Op_lessequal, TokenType.Op_less, line, pos);
             case '>':
-                return follow('>', TokenType.Op_greater, TokenType.Op_greaterequal, line, pos);
+                return follow('=', TokenType.Op_greaterequal, TokenType.Op_greater, line, pos);
             case '=':
                 return follow('=', TokenType.Op_equal, TokenType.Op_assign, line, pos);
             case '!':
-                return follow('!', TokenType.Op_not, TokenType.Op_notequal, line, pos);
+                return follow('=', TokenType.Op_notequal, TokenType.Op_not, line, pos);
             case '&':
                 return follow('&', TokenType.Op_and, TokenType.End_of_input, line, pos);
             case '|':
                 return follow('|', TokenType.Op_or, TokenType.End_of_input, line, pos);
             case '(':
+                getNextChar();
                 return new Token(TokenType.LeftParen, "", line, pos);
             case ')':
+                getNextChar();
                 return new Token(TokenType.RightParen, "", line, pos);
             case '{':
+                getNextChar();
                 return new Token(TokenType.LeftBrace, "", line, pos);
             case '}':
+                getNextChar();
                 return new Token(TokenType.RightBrace, "", line, pos);
             case ';':
+                getNextChar();
                 return new Token(TokenType.Semicolon, "", line, pos);
             case ',':
+                getNextChar();
                 return new Token(TokenType.Comma, "", line, pos);
             case '/':
                 return div_or_comment(line, pos);
@@ -247,7 +275,7 @@ public class Lexer {
 
     static void outputToFile(String result) {
         try {
-            FileWriter myWriter = new FileWriter("hello.lex");
+            FileWriter myWriter = new FileWriter("src/main/resources/countTest.lex");
             myWriter.write(result);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -257,23 +285,19 @@ public class Lexer {
     }
 
     public static void main(String[] args) {
-        if (args.length > 0) {
-            try {
-                File f = new File("src/main/resources/99bottles.c");
-                Scanner s = new Scanner(f);
-                String source = "";
-                String result;
-                while (s.hasNext()) {
-                    source += s.nextLine() + "\n";
-                }
-                Lexer l = new Lexer(source);
-                result = l.printTokens();
-                outputToFile(result);
-            } catch (FileNotFoundException e) {
-                error(-1, -1, "Exception: " + e.getMessage());
+        try {
+            File f = new File("src/main/resources/count.c");
+            Scanner s = new Scanner(f);
+            String source = "";
+            String result;
+            while (s.hasNext()) {
+                source += s.nextLine() + "\n";
             }
-        } else {
-            error(-1, -1, "No input file provided.");
+            Lexer l = new Lexer(source);
+            result = l.printTokens();
+            outputToFile(result);
+        } catch (FileNotFoundException e) {
+            error(-1, -1, "Exception: " + e.getMessage());
         }
     }
 }
