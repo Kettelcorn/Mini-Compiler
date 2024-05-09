@@ -278,13 +278,14 @@ class Parser {
         while (this.token.tokentype != TokenType.RightParen) {
             if (this.token.tokentype == TokenType.String) {
                 temp = Node.make_node(NodeType.nd_Prts, Node.make_leaf(NodeType.nd_String, this.token.value));
+                getNextToken();
             } else if (this.token.tokentype == TokenType.Integer) {
                 temp = Node.make_node(NodeType.nd_Prti, Node.make_leaf(NodeType.nd_Integer, this.token.value));
+                getNextToken();
             } else {
                 temp = Node.make_node(NodeType.nd_Prtc, expr(0));
             }
             node = Node.make_node(NodeType.nd_Sequence, node, temp);
-            getNextToken();
             if (this.token.tokentype == TokenType.Comma) {
                 getNextToken();
             }
@@ -400,7 +401,7 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/99bottles.lex"));
+                Scanner s = new Scanner(new File("src/main/resources/fizzbuzz.lex"));
                 String source = " ";
                 while (s.hasNext()) {
                     String str = s.nextLine();
