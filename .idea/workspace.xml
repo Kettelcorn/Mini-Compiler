@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code" />
+    <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/test1.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/test2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LexerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LexerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/99bottles.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/99bottles.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/99bottles.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/99bottles.par" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/count.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/count.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/countTest.lex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fizzbuzz.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fizzbuzz.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fizzbuzz.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fizzbuzz.par" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hello.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hello.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hello.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hello.par" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/loop.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/loop.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prime.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prime.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prime.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prime.par" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +103,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "second-attempt",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Kette/OneDrive/Documents/School/ProgrammingLanguages/Mini-Compiler/SolutionFiles/__MACOSX",
     "node.js.detected.package.eslint": "true",
@@ -114,7 +132,14 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LexerTest">
+  <component name="RunManager" selected="Application.Parser">
+    <configuration name="Lexer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Lexer" />
+      <module name="MiniCompiler.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Parser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Parser" />
       <module name="MiniCompiler.main" />
@@ -140,16 +165,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ParserTest.contstuctorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="MiniCompiler.main" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ParserTest" />
-      <option name="METHOD_NAME" value="contstuctorTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ParserTest.parseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="MiniCompiler.main" />
       <option name="PACKAGE_NAME" value="" />
@@ -162,18 +177,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Parser" />
-      <item itemvalue="JUnit.ParserTest.contstuctorTest" />
+      <item itemvalue="Application.Lexer" />
       <item itemvalue="JUnit.ParserTest.parseTest" />
       <item itemvalue="JUnit.LexerTest" />
       <item itemvalue="JUnit.ParserTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LexerTest" />
         <item itemvalue="JUnit.ParserTest" />
-        <item itemvalue="JUnit.ParserTest.parseTest" />
-        <item itemvalue="JUnit.ParserTest.contstuctorTest" />
+        <item itemvalue="JUnit.LexerTest" />
         <item itemvalue="Application.Parser" />
+        <item itemvalue="Application.Lexer" />
+        <item itemvalue="JUnit.ParserTest.parseTest" />
       </list>
     </recent_temporary>
   </component>
@@ -238,6 +253,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/Parser.java</url>
           <line>11</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ParserTest.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
