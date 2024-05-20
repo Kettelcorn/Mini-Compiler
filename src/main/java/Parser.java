@@ -441,21 +441,25 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                String[] files = new String[6];
+                String[] files = new String[8];
                 files[0] = "src/main/resources/fizzbuzz.lex";
                 files[1] = "src/main/resources/99bottles.lex";
                 files[2] = "src/main/resources/count.lex";
                 files[3] = "src/main/resources/hello.lex";
                 files[4] = "src/main/resources/loop.lex";
                 files[5] = "src/main/resources/prime.lex";
+                files[6] = "src/main/resources/test1.lex";
+                files[7] = "src/main/resources/test2.lex";
 
-                String[] outputFiles = new String[6];
+                String[] outputFiles = new String[8];
                 outputFiles[0] = "src/main/resources/fizzbuzz.par";
                 outputFiles[1] = "src/main/resources/99bottles.par";
                 outputFiles[2] = "src/main/resources/count.par";
                 outputFiles[3] = "src/main/resources/hello.par";
                 outputFiles[4] = "src/main/resources/loop.par";
                 outputFiles[5] = "src/main/resources/prime.par";
+                outputFiles[6] = "src/main/resources/test1.par";
+                outputFiles[7] = "src/main/resources/test2.par";
 
                 for (int i = 0; i < files.length; i++) {
                     String value, token;

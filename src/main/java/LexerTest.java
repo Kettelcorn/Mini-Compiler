@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LexerTest {
 
+    /**
+     * Test to see if lexer output matches the expected output
+     * @throws IOException
+     */
     @Test
     void outputToFile() throws IOException {
         Map<String, String> outputPaths = new HashMap<>();

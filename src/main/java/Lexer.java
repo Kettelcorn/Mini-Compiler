@@ -361,21 +361,26 @@ public class Lexer {
      */
     public static void main(String[] args) {
         try {
-            String[] files = new String[6];
+            String[] files = new String[8];
             files[0] = "src/main/resources/fizzbuzz.c";
             files[1] = "src/main/resources/99bottles.c";
             files[2] = "src/main/resources/count.c";
             files[3] = "src/main/resources/hello.t";
             files[4] = "src/main/resources/loop.py";
             files[5] = "src/main/resources/prime.c";
+            files[6] = "src/main/resources/test1.c";
+            files[7] = "src/main/resources/test2.c";
 
-            String[] outputFiles = new String[6];
+            String[] outputFiles = new String[8];
             outputFiles[0] = "src/main/resources/fizzbuzz.lex";
             outputFiles[1] = "src/main/resources/99bottles.lex";
             outputFiles[2] = "src/main/resources/count.lex";
             outputFiles[3] = "src/main/resources/hello.lex";
             outputFiles[4] = "src/main/resources/loop.lex";
             outputFiles[5] = "src/main/resources/prime.lex";
+            outputFiles[6] = "src/main/resources/test1.lex";
+            outputFiles[7] = "src/main/resources/test2.lex";
+
             for (int i = 0; i < outputFiles.length; i++) {
                 Scanner s = new Scanner(new File(files[i]));
                 String source = "";
