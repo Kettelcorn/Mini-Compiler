@@ -13,6 +13,7 @@ class Parser {
     private List<Token> source;
     private Token token;
     private int position;
+    private HashMap<String, TokenType> symbolTable;
 
     static class Node {
         public NodeType nt;
@@ -144,6 +145,7 @@ class Parser {
         this.source = source;
         this.token = null;
         this.position = 0;
+        symbolTable = new HashMap<>();
     }
 
     /**
@@ -162,7 +164,7 @@ class Parser {
      */
     Node expr(int p) {
         Node node = primary();
-        while (this.token.tokentype.isBinary() && this.token.tokentype.precedence > p) {
+        while (this.token.tokentype.isBinary() && this.token.tokentype.getPrecedence() > p) {
             TokenType operator = this.token.tokentype;
             getNextToken();
             Node rightNode = expr(operator.getPrecedence());
@@ -176,24 +178,26 @@ class Parser {
      * @return the node representing the primary expression.
      */
     Node primary() {
+        Node node = null;
         if (this.token.tokentype == TokenType.Integer) {
-            Node node = Node.make_leaf(NodeType.nd_Integer, this.token.value);
+            node = Node.make_leaf(NodeType.nd_Integer, this.token.value);
             getNextToken();
-            return node;
         } else if (this.token.tokentype == TokenType.Identifier) {
-            Node node = Node.make_leaf(NodeType.nd_Ident, this.token.value);
+            if (!symbolTable.containsKey(this.token.value)) {
+                error(this.token.line, this.token.pos, "Identifier not found in symbol table.");
+            }
+            node = Node.make_leaf(NodeType.nd_Ident, this.token.value);
             getNextToken();
-            return node;
         } else if (this.token.tokentype == TokenType.LeftParen) {
-            paren_expr();
+            node = paren_expr();
         } else if (this.token.tokentype.isUnary() && this.token.tokentype != TokenType.Op_equal){
-                NodeType unary = this.token.tokentype.getNodeType();
-                getNextToken();
-                return Node.make_node(unary, primary(), null);
+            NodeType unary = this.token.tokentype.getNodeType();
+            getNextToken();
+            node = Node.make_node(unary, primary(), null);
         } else {
             error(this.token.line, this.token.pos, "Expecting primary token, cannot use " + this.token.tokentype + ".");
         }
-        return null;
+        return node;
     }
 
     /**
@@ -225,45 +229,47 @@ class Parser {
      * @return the node representing the parsed statement.
      */
     Node stmt() {
-        if (this.token.tokentype == TokenType.Identifier) {
-            Node leftNode = Node.make_leaf(this.token.tokentype.getNodeType(), this.token.value);
-            getNextToken();
-            expect("Assign", TokenType.Op_assign);
-            Node node = Node.make_node(NodeType.nd_Assign, leftNode, expr(0));
-            expect("Semicolon", TokenType.Semicolon);
-            return node;
-        } else if (this.token.tokentype == TokenType.Keyword_while) {
-            getNextToken();
-            return Node.make_node(NodeType.nd_While, paren_expr(), stmt());
-        } else if (this.token.tokentype == TokenType.Keyword_if) {
-             getNextToken();
-             Node ifNode = Node.make_node(NodeType.nd_If, null, null);
-             Node parenExpr = paren_expr();
-             Node ifTrue = stmt();
-             if (this.token.tokentype == TokenType.Keyword_else) {
-                 getNextToken();
-                 Node ifFalse = stmt();
-                 return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, ifFalse));
-             } else {
+        switch (this.token.tokentype) {
+            case TokenType.Identifier:
+                String name = this.token.value;
+                Node leftNode = Node.make_leaf(this.token.tokentype.getNodeType(), this.token.value);
                 getNextToken();
-                return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, null));
-             }
-        } else if (this.token.tokentype == TokenType.Keyword_print) {
-            return printNode();
-        } else if (this.token.tokentype == TokenType.Keyword_putc) {
-            return Node.make_node(NodeType.nd_Prtc, paren_expr(), null);
-        } else if (this.token.tokentype == TokenType.LeftBrace) {
-            Node node = null;
-            getNextToken();
-            while (this.token.tokentype != TokenType.RightBrace) {
-                node = Node.make_node(NodeType.nd_Sequence, node, stmt());
-            }
-            getNextToken();
-            return node;
-        } else {
-            error(this.token.line, this.token.pos, "Expecting statement, found: " + this.token + ".");
+                expect("Assign", TokenType.Op_assign);
+                Node node = Node.make_node(NodeType.nd_Assign, leftNode, expr(0));
+                symbolTable.put(name, findType(node.right));
+                expect("Semicolon", TokenType.Semicolon);
+                return node;
+            case TokenType.Keyword_while:
+                getNextToken();
+                return Node.make_node(NodeType.nd_While, paren_expr(), stmt());
+            case TokenType.Keyword_if:
+                getNextToken();
+                Node ifNode = Node.make_node(NodeType.nd_If, null, null);
+                Node parenExpr = paren_expr();
+                Node ifTrue = stmt();
+                if (this.token.tokentype == TokenType.Keyword_else) {
+                    getNextToken();
+                    Node ifFalse = stmt();
+                    return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, ifFalse));
+                } else {
+                    return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, null));
+                }
+            case TokenType.Keyword_print:
+                return printNode();
+            case TokenType.Keyword_putc:
+                return Node.make_node(NodeType.nd_Prtc, paren_expr(), null);
+            case TokenType.LeftBrace:
+                Node temp = null;
+                getNextToken();
+                while (this.token.tokentype != TokenType.RightBrace) {
+                    temp = Node.make_node(NodeType.nd_Sequence, temp, stmt());
+                }
+                getNextToken();
+                return temp;
+            default:
+                error(this.token.line, this.token.pos, "Expecting statement, found: " + this.token + ".");
+                return null;
         }
-        return null;
     }
 
     /**
@@ -282,6 +288,20 @@ class Parser {
             } else if (this.token.tokentype == TokenType.Integer) {
                 temp = Node.make_node(NodeType.nd_Prti, Node.make_leaf(NodeType.nd_Integer, this.token.value));
                 getNextToken();
+            } else if (this.token.tokentype == TokenType.Identifier) {
+                if (!symbolTable.containsKey(this.token.value)) {
+                    error(this.token.line, this.token.pos, "Identifier not found in symbol table.");
+                }
+                TokenType type = symbolTable.get(this.token.value);
+                if (type == TokenType.Integer) {
+                    temp = Node.make_node(NodeType.nd_Prti, Node.make_leaf(NodeType.nd_Ident, this.token.value));
+                    getNextToken();
+                } else if (type == TokenType.String) {
+                    temp = Node.make_node(NodeType.nd_Prts, Node.make_leaf(NodeType.nd_Ident, this.token.value));
+                    getNextToken();
+                } else {
+                    error(this.token.line, this.token.pos, "Identifier is not of type Integer or String.");
+                }
             } else {
                 temp = Node.make_node(NodeType.nd_Prtc, expr(0));
             }
@@ -293,6 +313,32 @@ class Parser {
         getNextToken();
         expect("Semicolon", TokenType.Semicolon);
         return node;
+    }
+
+    /**
+     * Find data type of identifier.
+     * @param node
+     * @return token type of identifier.
+     */
+    TokenType findType(Node node) {
+        switch (node.nt) {
+            case nd_Integer:
+                return TokenType.Integer;
+            case nd_String:
+                return TokenType.String;
+            case nd_Ident:
+                return symbolTable.get(node.value);
+            default:
+                if (node.left != null) {
+                    return findType(node.left);
+                } else if (node.right != null) {
+                    return findType(node.right);
+                } else {
+                    error(this.token.line, this.token.pos, "Identifier not correctly assigned type.");
+                    return null;
+                }
+
+        }
     }
 
     /**
@@ -315,6 +361,7 @@ class Parser {
      * @return the string representation of the AST.
      */
     String printAST(Node t, StringBuilder sb) {
+        symbolTable.clear();
         int i = 0;
         if (t == null) {
             sb.append(";");
@@ -342,12 +389,12 @@ class Parser {
      * Writes the result of AST processing to a file.
      * @param result the string representation of the AST to be written to the file.
      */
-    static void outputToFile(String result) {
+    static void outputToFile(String result, String f) {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/99bottles.par");
+            FileWriter myWriter = new FileWriter(f);
             myWriter.write(result);
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to the file: " + f);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -360,13 +407,6 @@ class Parser {
     public static void main(String[] args) {
         if (1==1) {
             try {
-                String value, token;
-                String result = " ";
-                StringBuilder sb = new StringBuilder();
-                int line, pos;
-                Token t;
-                boolean found;
-                List<Token> list = new ArrayList<>();
                 Map<String, TokenType> str_to_tokens = new HashMap<>();
 
                 str_to_tokens.put("End_of_input", TokenType.End_of_input);
@@ -382,7 +422,7 @@ class Parser {
                 str_to_tokens.put("Op_greater", TokenType.Op_greater);
                 str_to_tokens.put("Op_greaterequal", TokenType.Op_greaterequal);
                 str_to_tokens.put("Op_equal", TokenType.Op_equal);
-                str_to_tokens.put("Op_notequalt", TokenType.Op_notequal);
+                str_to_tokens.put("Op_notequal", TokenType.Op_notequal);
                 str_to_tokens.put("Op_assign", TokenType.Op_assign);
                 str_to_tokens.put("Op_and", TokenType.Op_and);
                 str_to_tokens.put("Op_or", TokenType.Op_or);
@@ -401,30 +441,56 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/fizzbuzz.lex"));
-                String source = " ";
-                while (s.hasNext()) {
-                    String str = s.nextLine();
-                    StringTokenizer st = new StringTokenizer(str);
-                    line = Integer.parseInt(st.nextToken());
-                    pos = Integer.parseInt(st.nextToken());
-                    token = st.nextToken();
-                    value = "";
-                    while (st.hasMoreTokens()) {
-                        value += st.nextToken() + " ";
+                String[] files = new String[6];
+                files[0] = "src/main/resources/fizzbuzz.lex";
+                files[1] = "src/main/resources/99bottles.lex";
+                files[2] = "src/main/resources/count.lex";
+                files[3] = "src/main/resources/hello.lex";
+                files[4] = "src/main/resources/loop.lex";
+                files[5] = "src/main/resources/prime.lex";
+
+                String[] outputFiles = new String[6];
+                outputFiles[0] = "src/main/resources/fizzbuzz.par";
+                outputFiles[1] = "src/main/resources/99bottles.par";
+                outputFiles[2] = "src/main/resources/count.par";
+                outputFiles[3] = "src/main/resources/hello.par";
+                outputFiles[4] = "src/main/resources/loop.par";
+                outputFiles[5] = "src/main/resources/prime.par";
+
+                for (int i = 0; i < files.length; i++) {
+                    String value, token;
+                    String result = " ";
+                    StringBuilder sb = new StringBuilder();
+                    int line, pos;
+                    Token t;
+                    boolean found;
+                    List<Token> list = new ArrayList<>();
+
+                    Scanner s = new Scanner(new File(files[i]));
+                    String source = " ";
+                    while (s.hasNext()) {
+                        String str = s.nextLine();
+                        StringTokenizer st = new StringTokenizer(str);
+                        line = Integer.parseInt(st.nextToken());
+                        pos = Integer.parseInt(st.nextToken());
+                        token = st.nextToken();
+                        value = "";
+                        while (st.hasMoreTokens()) {
+                            value += st.nextToken() + " ";
+                        }
+                        found = false;
+                        if (str_to_tokens.containsKey(token)) {
+                            found = true;
+                            list.add(new Token(str_to_tokens.get(token), value, line, pos));
+                        }
+                        if (found == false) {
+                            throw new Exception("Token not found: '" + token + "'");
+                        }
                     }
-                    found = false;
-                    if (str_to_tokens.containsKey(token)) {
-                        found = true;
-                        list.add(new Token(str_to_tokens.get(token), value, line, pos));
-                    }
-                    if (found == false) {
-                        throw new Exception("Token not found: '" + token + "'");
-                    }
+                    Parser p = new Parser(list);
+                    result = p.printAST(p.parse(), sb);
+                    outputToFile(result, outputFiles[i]);
                 }
-                Parser p = new Parser(list);
-                result = p.printAST(p.parse(), sb);
-                outputToFile(result);
             } catch (FileNotFoundException e) {
                 error(-1, -1, "Exception: " + e.getMessage());
             } catch (Exception e) {

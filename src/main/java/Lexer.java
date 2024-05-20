@@ -342,9 +342,10 @@ public class Lexer {
      *
      * @param result the string representation of tokens to be written
      */
-    static void outputToFile(String result) {
+    static void outputToFile(String result, String file) {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/countTest.lex");
+
+            FileWriter myWriter = new FileWriter(file);
             myWriter.write(result);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -360,16 +361,32 @@ public class Lexer {
      */
     public static void main(String[] args) {
         try {
-            File f = new File("src/main/resources/count.c");
-            Scanner s = new Scanner(f);
-            String source = "";
-            String result;
-            while (s.hasNext()) {
-                source += s.nextLine() + "\n";
+            String[] files = new String[6];
+            files[0] = "src/main/resources/fizzbuzz.c";
+            files[1] = "src/main/resources/99bottles.c";
+            files[2] = "src/main/resources/count.c";
+            files[3] = "src/main/resources/hello.t";
+            files[4] = "src/main/resources/loop.py";
+            files[5] = "src/main/resources/prime.c";
+
+            String[] outputFiles = new String[6];
+            outputFiles[0] = "src/main/resources/fizzbuzz.lex";
+            outputFiles[1] = "src/main/resources/99bottles.lex";
+            outputFiles[2] = "src/main/resources/count.lex";
+            outputFiles[3] = "src/main/resources/hello.lex";
+            outputFiles[4] = "src/main/resources/loop.lex";
+            outputFiles[5] = "src/main/resources/prime.lex";
+            for (int i = 0; i < outputFiles.length; i++) {
+                Scanner s = new Scanner(new File(files[i]));
+                String source = "";
+                String result;
+                while (s.hasNext()) {
+                    source += s.nextLine() + "\n";
+                }
+                Lexer l = new Lexer(source);
+                result = l.printTokens();
+                outputToFile(result, outputFiles[i]);
             }
-            Lexer l = new Lexer(source);
-            result = l.printTokens();
-            outputToFile(result);
         } catch (FileNotFoundException e) {
             error(-1, -1, "Exception: " + e.getMessage());
         }
