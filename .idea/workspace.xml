@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/LexerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ParserTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
