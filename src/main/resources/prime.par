@@ -36,8 +36,12 @@ Identifier n
 Integer 2 
 While
 And
-;
-;
+LessEqual
+Multiply
+Identifier k 
+Identifier k 
+Identifier n 
+Identifier p 
 Sequence
 Sequence
 ;
@@ -64,7 +68,7 @@ Sequence
 Sequence
 Sequence
 ;
-Prtc
+Prti
 Identifier n 
 ;
 Prts
@@ -83,7 +87,7 @@ Sequence
 Prts
 String "Total primes found: " 
 ;
-Prtc
+Prti
 Identifier count 
 ;
 Prts

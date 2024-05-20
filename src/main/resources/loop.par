@@ -18,7 +18,7 @@ Sequence
 Prts
 String "count is: " 
 ;
-Prtc
+Prti
 Identifier count 
 ;
 Prts

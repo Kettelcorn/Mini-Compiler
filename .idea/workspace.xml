@@ -6,20 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/99bottles.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/99bottles.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/count.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/count.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/99bottles.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/99bottles.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/99bottles.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/99bottles.par" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/count.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/count.lex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/count.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/count.par" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/fizzbuzz.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fizzbuzz.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fizzbuzz.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fizzbuzz.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fizzbuzz.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fizzbuzz.par" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hello.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hello.lex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hello.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hello.par" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hello.t" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hello.t" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/loop.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/loop.lex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/loop.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/loop.par" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/loop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/loop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/prime.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prime.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prime.lex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prime.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prime.par" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prime.par" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +81,7 @@
     "Application.main.executor": "Run",
     "Gradle.Build Mini-Compiler.executor": "Run",
     "Gradle.Mini-Compiler [:Lexer.main()].executor": "Run",
-    "Gradle.Mini-Compiler [:Parser.main()].executor": "Debug",
+    "Gradle.Mini-Compiler [:Parser.main()].executor": "Run",
     "Gradle.Upgrade Gradle wrapper.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -209,22 +209,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="New commit with added getNextToken() code" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/Parser.java</url>
-          <line>315</line>
-          <properties class="Parser" method="printAST">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Lexer" memberName="position" />
+        <PinnedItemInfo parentTag="Parser$Node" memberName="nt" />
       </pinned-members>
     </pin-to-top-manager>
   </component>
