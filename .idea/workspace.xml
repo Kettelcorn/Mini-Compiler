@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7ac25b6-265d-43ed-8230-0c6749f7127e" name="Changes" comment="New commit with added getNextToken() code">
+      <change afterPath="$PROJECT_DIR$/src/main/java/LexerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ParserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +52,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -71,8 +73,12 @@
     "Gradle.Mini-Compiler [:Lexer.main()].executor": "Run",
     "Gradle.Mini-Compiler [:Parser.main()].executor": "Run",
     "Gradle.Upgrade Gradle wrapper.executor": "Run",
+    "JUnit.LexerTest.executor": "Run",
+    "JUnit.LexerTest.outputToFile.executor": "Run",
+    "JUnit.ParserTest.contstuctorTest.executor": "Run",
     "JUnit.ParserTest.executor": "Run",
     "JUnit.ParserTest.outputToFile.executor": "Run",
+    "JUnit.ParserTest.parseTest.executor": "Run",
     "JUnit.ParserTest.testFileOutput.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -86,7 +92,7 @@
     "create.test.in.the.same.root": "true",
     "git-widget-placeholder": "second-attempt",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Kette/OneDrive/Documents/School/ProgrammingLanguages/Mini-Compiler/src/main/java/Parser.java",
+    "last_opened_file_path": "C:/Users/Kette/OneDrive/Documents/School/ProgrammingLanguages/Mini-Compiler/SolutionFiles/__MACOSX",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -100,6 +106,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Kette\OneDrive\Documents\School\ProgrammingLanguages\Mini-Compiler\SolutionFiles\__MACOSX" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -112,19 +119,19 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ParserTest.outputToFile">
-    <configuration name="Lexer (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Lexer" />
+  <component name="RunManager" selected="JUnit.LexerTest">
+    <configuration name="Parser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Parser" />
       <module name="MiniCompiler.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Lexer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="21" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Parser" />
+    <configuration name="LexerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="MiniCompiler.main" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LexerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -138,40 +145,40 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ParserTest.outputToFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ParserTest.contstuctorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="MiniCompiler.main" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="ParserTest" />
-      <option name="METHOD_NAME" value="outputToFile" />
+      <option name="METHOD_NAME" value="contstuctorTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ParserTest.testFileOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ParserTest.parseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="MiniCompiler.main" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="ParserTest" />
-      <option name="METHOD_NAME" value="testFileOutput" />
+      <option name="METHOD_NAME" value="parseTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Lexer (1)" />
-      <item itemvalue="Application.Lexer" />
+      <item itemvalue="Application.Parser" />
+      <item itemvalue="JUnit.ParserTest.contstuctorTest" />
+      <item itemvalue="JUnit.ParserTest.parseTest" />
+      <item itemvalue="JUnit.LexerTest" />
       <item itemvalue="JUnit.ParserTest" />
-      <item itemvalue="JUnit.ParserTest.outputToFile" />
-      <item itemvalue="JUnit.ParserTest.testFileOutput" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ParserTest.outputToFile" />
-        <item itemvalue="JUnit.ParserTest.testFileOutput" />
+        <item itemvalue="JUnit.LexerTest" />
         <item itemvalue="JUnit.ParserTest" />
-        <item itemvalue="Application.Lexer (1)" />
-        <item itemvalue="Application.Lexer" />
+        <item itemvalue="JUnit.ParserTest.parseTest" />
+        <item itemvalue="JUnit.ParserTest.contstuctorTest" />
+        <item itemvalue="Application.Parser" />
       </list>
     </recent_temporary>
   </component>
@@ -230,6 +237,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="New commit with added getNextToken() code" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Parser.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Lexer" memberName="position" />
