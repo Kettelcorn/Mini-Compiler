@@ -245,7 +245,6 @@ class Parser {
                  Node ifFalse = stmt();
                  return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, ifFalse));
              } else {
-                getNextToken();
                 return Node.make_node(NodeType.nd_If, parenExpr, Node.make_node(NodeType.nd_If, ifTrue, null));
              }
         } else if (this.token.tokentype == TokenType.Keyword_print) {
@@ -342,12 +341,12 @@ class Parser {
      * Writes the result of AST processing to a file.
      * @param result the string representation of the AST to be written to the file.
      */
-    static void outputToFile(String result) {
+    static void outputToFile(String result, String f) {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/99bottles.par");
+            FileWriter myWriter = new FileWriter(f);
             myWriter.write(result);
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to the file: " + f);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -382,7 +381,7 @@ class Parser {
                 str_to_tokens.put("Op_greater", TokenType.Op_greater);
                 str_to_tokens.put("Op_greaterequal", TokenType.Op_greaterequal);
                 str_to_tokens.put("Op_equal", TokenType.Op_equal);
-                str_to_tokens.put("Op_notequalt", TokenType.Op_notequal);
+                str_to_tokens.put("Op_notequal", TokenType.Op_notequal);
                 str_to_tokens.put("Op_assign", TokenType.Op_assign);
                 str_to_tokens.put("Op_and", TokenType.Op_and);
                 str_to_tokens.put("Op_or", TokenType.Op_or);
@@ -401,30 +400,51 @@ class Parser {
                 str_to_tokens.put("Integer", TokenType.Integer);
                 str_to_tokens.put("String", TokenType.String);
 
-                Scanner s = new Scanner(new File("src/main/resources/fizzbuzz.lex"));
-                String source = " ";
-                while (s.hasNext()) {
-                    String str = s.nextLine();
-                    StringTokenizer st = new StringTokenizer(str);
-                    line = Integer.parseInt(st.nextToken());
-                    pos = Integer.parseInt(st.nextToken());
-                    token = st.nextToken();
-                    value = "";
-                    while (st.hasMoreTokens()) {
-                        value += st.nextToken() + " ";
+                String[] files = new String[6];
+                files[0] = "src/main/resources/fizzbuzz.lex";
+                files[1] = "src/main/resources/99bottles.lex";
+                files[2] = "src/main/resources/count.lex";
+                files[3] = "src/main/resources/hello.lex";
+                files[4] = "src/main/resources/loop.lex";
+                files[5] = "src/main/resources/prime.lex";
+
+                String[] outputFiles = new String[6];
+                outputFiles[0] = "src/main/resources/fizzbuzz.par";
+                outputFiles[1] = "src/main/resources/99bottles.par";
+                outputFiles[2] = "src/main/resources/count.par";
+                outputFiles[3] = "src/main/resources/hello.par";
+                outputFiles[4] = "src/main/resources/loop.par";
+                outputFiles[5] = "src/main/resources/prime.par";
+
+                for (int i = 0; i < files.length; i++) {
+                    Scanner s = new Scanner(new File(files[i]));
+                    String source = " ";
+                    while (s.hasNext()) {
+                        String str = s.nextLine();
+                        StringTokenizer st = new StringTokenizer(str);
+                        line = Integer.parseInt(st.nextToken());
+                        pos = Integer.parseInt(st.nextToken());
+                        token = st.nextToken();
+                        value = "";
+                        while (st.hasMoreTokens()) {
+                            value += st.nextToken() + " ";
+                        }
+                        found = false;
+                        if (str_to_tokens.containsKey(token)) {
+                            found = true;
+                            list.add(new Token(str_to_tokens.get(token), value, line, pos));
+                        }
+                        if (found == false) {
+                            throw new Exception("Token not found: '" + token + "'");
+                        }
                     }
-                    found = false;
-                    if (str_to_tokens.containsKey(token)) {
-                        found = true;
-                        list.add(new Token(str_to_tokens.get(token), value, line, pos));
-                    }
-                    if (found == false) {
-                        throw new Exception("Token not found: '" + token + "'");
-                    }
+                    Parser p = new Parser(list);
+                    result = p.printAST(p.parse(), sb);
+                    outputToFile(result, outputFiles[i]);
+                    list.clear();
+                    result = " ";
+                    sb.setLength(0);
                 }
-                Parser p = new Parser(list);
-                result = p.printAST(p.parse(), sb);
-                outputToFile(result);
             } catch (FileNotFoundException e) {
                 error(-1, -1, "Exception: " + e.getMessage());
             } catch (Exception e) {
